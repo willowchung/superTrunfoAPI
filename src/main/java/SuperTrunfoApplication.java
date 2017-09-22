@@ -46,11 +46,11 @@ public class SuperTrunfoApplication {
         c.setCategory(category);
         c.setRank(rank);
 
-        c.setStrength((short)1);
-        c.setEquipment((short)2);
-        c.setIntelligence((short)3);
-        c.setSkill((short)4);
-        c.setSpeed((short)5);
+        c.setStrength((short) (random.nextInt(6) + 1));
+        c.setEquipment((short) (random.nextInt(6) + 1));
+        c.setIntelligence((short) (random.nextInt(6) + 1));
+        c.setSkill((short) (random.nextInt(6) + 1));
+        c.setSpeed((short) (random.nextInt(6) + 1));
         return c;
     }
 
