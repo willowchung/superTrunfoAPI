@@ -14,11 +14,6 @@ public class CardController {
     @Autowired
     private CardService cardService;
 
-    @RequestMapping("/")
-    public String home() {
-        return "SuperTrunfoApplication";
-    }
-
     @RequestMapping("/sortDeck")
     public List<Card> sortDeck() {
         return cardService.sortDeck();
