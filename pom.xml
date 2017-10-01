@@ -18,6 +18,7 @@
         <java.version>1.8</java.version>
         <settings.marvel.api.public.key>4c7168abf63f6274e8abad90f9bb52c7</settings.marvel.api.public.key>
         <settings.marvel.api.private.key>f392af0bccc97032b99e0b2d4782a72d74f287e9</settings.marvel.api.private.key>
+        <settings.database.schema>SUPER_TRUNFO</settings.database.schema>
     </properties>
 
     <!-- Add typical dependencies for a web application -->
@@ -25,6 +26,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
         </dependency>
 
         <dependency>
@@ -38,6 +49,28 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-releasetrain</artifactId>
+                <version>Ingalls-SR7</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <repositories>
+        <repository>
+            <id>spring-libs-release</id>
+            <name>Spring Releases</name>
+            <url>https://repo.spring.io/libs-release</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <!-- Package as an executable jar -->
     <build>

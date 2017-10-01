@@ -1,18 +1,18 @@
-package br.edu.infnet.superTrunfoApi.service;
+package br.edu.infnet.superTrunfoAPI.service;
 
 import br.edu.infnet.superTrunfoAPI.model.Card;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 @Service
 public class CardService {
 
+
     public List<Card> sortDeck() {
-        List<Card> deck = new ArrayList<>();
+        return null;
+        /*List<Card> deck = new ArrayList<>();
         String[] categories = {"A","B","C","D","E"};
         int[] ranks = {1,2,3,4,5,6};
 
@@ -22,7 +22,7 @@ public class CardService {
             });
         });
 
-        return deck;
+        return deck;*/
     }
 
     private Card generateCard(String name, String category, short rank) {
@@ -35,7 +35,6 @@ public class CardService {
         c.setStrength((short) (random.nextInt(6) + 1));
         c.setEquipment((short) (random.nextInt(6) + 1));
         c.setIntelligence((short) (random.nextInt(6) + 1));
-        c.setSkill((short) (random.nextInt(6) + 1));
         c.setSpeed((short) (random.nextInt(6) + 1));
         return c;
     }

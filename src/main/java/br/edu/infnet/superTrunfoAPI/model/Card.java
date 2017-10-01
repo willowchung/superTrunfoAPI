@@ -1,17 +1,32 @@
 package br.edu.infnet.superTrunfoAPI.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
-public class Card implements Serializable{
+@Entity
+@Table(name = "Card")
+public class Card implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String category;
     private short rank;
 
     private short strength;
     private short speed;
-    private short skill;
     private short equipment;
     private short intelligence;
+
+    private String imageUrl;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -53,14 +68,6 @@ public class Card implements Serializable{
         this.speed = speed;
     }
 
-    public short getSkill() {
-        return skill;
-    }
-
-    public void setSkill(short skill) {
-        this.skill = skill;
-    }
-
     public short getEquipment() {
         return equipment;
     }
@@ -75,5 +82,13 @@ public class Card implements Serializable{
 
     public void setIntelligence(short intelligence) {
         this.intelligence = intelligence;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

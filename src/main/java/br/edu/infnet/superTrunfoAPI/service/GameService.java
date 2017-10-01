@@ -1,4 +1,4 @@
-package br.edu.infnet.superTrunfoApi.service;
+package br.edu.infnet.superTrunfoAPI.service;
 
 import br.edu.infnet.superTrunfoAPI.model.Player;
 import io.reactivex.Observable;
@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class GameService {
 
-    private static List<Player> onlinePlayers = new ArrayList<>();
+    public static List<Player> onlinePlayers = new ArrayList<>();
 
     {
         mockPlayers();
@@ -36,10 +36,11 @@ public class GameService {
     }
 
 
-    public Observable<Player> getOnlinePlayers() {
-        return Observable.<Player>create(o -> {
-            onlinePlayers.forEach(o::onNext);
-            o.onComplete();
+    public Observable<List<Player>> getOnlinePlayers() {
+        return Observable.create(observableEmitter -> {
+            while (!observableEmitter.isDisposed()) {
+                observableEmitter.onNext(onlinePlayers);
+            }
         });
     }
 
