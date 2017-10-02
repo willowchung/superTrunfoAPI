@@ -1,13 +1,18 @@
 package br.edu.infnet.superTrunfoAPI.model;
 
+import org.hibernate.annotations.Immutable;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Immutable
 @Table(name = "Card")
 public class Card implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_CARD")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CARD")
+    @SequenceGenerator(name = "SEQ_CARD", sequenceName = "SEQ_CARD", allocationSize = 1)
     private Long id;
     private String name;
     private String category;

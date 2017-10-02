@@ -1,21 +1,22 @@
 package br.edu.infnet.superTrunfoAPI.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
+@Entity
+@Table(name = "Player")
 public class Player implements Serializable {
+    @Id
+    @Column(name = "ID_PLAYER")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PLAYER")
+    @SequenceGenerator(name = "SEQ_PLAYER", sequenceName = "SEQ_PLAYER", allocationSize = 1)
     private Long id;
+
     private String name;
-    private Boolean available;
-    private BigDecimal latitude;
-    private BigDecimal longitude;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public Player(String name) {
+        super();
+        this.name = name;
     }
 
     public String getName() {
@@ -24,29 +25,5 @@ public class Player implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Boolean getAvailable() {
-        return available;
-    }
-
-    public void setAvailable(Boolean available) {
-        this.available = available;
-    }
-
-    public BigDecimal getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
-    }
-
-    public BigDecimal getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
     }
 }
