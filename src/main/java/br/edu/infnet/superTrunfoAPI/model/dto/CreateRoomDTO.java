@@ -3,7 +3,7 @@ package br.edu.infnet.superTrunfoAPI.model.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class createRoomDTO implements Serializable {
+public class CreateRoomDTO implements Serializable {
     private String playerName;
     private String roomName;
     private BigDecimal latitude;
