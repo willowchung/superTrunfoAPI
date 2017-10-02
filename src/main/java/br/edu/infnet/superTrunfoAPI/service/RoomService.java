@@ -2,18 +2,18 @@ package br.edu.infnet.superTrunfoAPI.service;
 
 import br.edu.infnet.superTrunfoAPI.model.Player;
 import br.edu.infnet.superTrunfoAPI.model.Room;
+import br.edu.infnet.superTrunfoAPI.model.dto.createRoomDTO;
 import br.edu.infnet.superTrunfoAPI.repository.PlayerRepository;
 import br.edu.infnet.superTrunfoAPI.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Service
+@Transactional
 public class RoomService {
 
     @Autowired
@@ -35,13 +35,20 @@ public class RoomService {
 
     private Room createFirstRoom() {
         Player player = fetchFirstPlayer();
+        return createRoom(player, null, new BigDecimal(-22.906339), new BigDecimal(-43.177051));
+    }
 
+    private String randomRoomName() {
+        return "Sala" + new Random().nextInt();
+    }
+
+    private Room createRoom(Player player, String roomName, BigDecimal latitude, BigDecimal longitude) {
         Room room = new Room();
-        room.setName("Sala 1");
+        room.setName(roomName == null || roomName.isEmpty() ? randomRoomName() : roomName);
         room.setAvailable(true);
         room.setCreator(player.getName());
-        room.setLatitude(new BigDecimal(-22.906339));
-        room.setLongitude(new BigDecimal(-43.177051));
+        room.setLatitude(latitude);
+        room.setLongitude(longitude);
         room.setPlayers(new HashSet<Player>(Arrays.asList(player)));
 
         return roomRepository.save(room);
@@ -56,5 +63,14 @@ public class RoomService {
         }
 
         return players.get(0);
+    }
+
+    public Room createRoom(createRoomDTO dto) {
+        Player player = playerRepository.findByName(dto.getPlayerName());
+        if (player == null) {
+            player = playerRepository.save(new Player(dto.getPlayerName()));
+        }
+
+        return createRoom(player,dto.getRoomName(), dto.getLatitude(), dto.getLongitude());
     }
 }
