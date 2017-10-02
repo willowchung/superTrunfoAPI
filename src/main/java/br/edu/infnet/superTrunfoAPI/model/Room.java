@@ -1,13 +1,12 @@
 package br.edu.infnet.superTrunfoAPI.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Room")
@@ -22,19 +21,19 @@ public class Room implements Serializable {
     private String creator;
     private BigDecimal latitude;
     private BigDecimal longitude;
+
     @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "ROOM_PLAYER", joinColumns = {@JoinColumn(name = "ID_ROOM")}, inverseJoinColumns = {@JoinColumn(name = "ID_PLAYER")})
-    private List<Player> players;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    @JoinTable(name = "ROUND_PLAYER_MOVE", joinColumns = {@JoinColumn(name = "ID_ROOM")}, inverseJoinColumns = {@JoinColumn(name = "ID_ROUND")})
-    private List<Round> rounds;
+    private Set<Player> players;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "room")
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    private Set<Round> rounds;
 
     public Room() {
         super();
-        players = new ArrayList<>();
-        rounds = new ArrayList<>();
+        players = new HashSet<>();
+        rounds = new HashSet<>();
     }
 
     public Long getId() {
@@ -85,11 +84,19 @@ public class Room implements Serializable {
         this.longitude = longitude;
     }
 
-    public List<Player> getPlayers() {
+    public Set<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<Player> players) {
+    public void setPlayers(Set<Player> players) {
         this.players = players;
+    }
+
+    public Set<Round> getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(Set<Round> rounds) {
+        this.rounds = rounds;
     }
 }

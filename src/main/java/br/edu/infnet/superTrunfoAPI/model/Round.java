@@ -13,12 +13,20 @@ public class Round implements Serializable {
     @SequenceGenerator(name = "SEQ_ROUND", sequenceName = "SEQ_ROUND", allocationSize = 1)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID_ROOM")
+    private Room room;
+
     private Integer number;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ROUND_PLAYER_MOVE", joinColumns = {@JoinColumn(name = "ID_ROUND")}, inverseJoinColumns = {@JoinColumn(name = "ID_PLAYER_MOVE")})
     private List<PlayerMove> playerMoves;
+
+    @OneToOne
     @JoinColumn(name = "ID_WINNER_PLAYER")
     private Player winnerPlayer;
+
     private Integer skill;
 
     public Long getId() {

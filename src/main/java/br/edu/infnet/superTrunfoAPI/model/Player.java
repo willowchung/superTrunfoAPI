@@ -14,6 +14,9 @@ public class Player implements Serializable {
 
     private String name;
 
+    public Player() {
+    }
+
     public Player(String name) {
         super();
         this.name = name;

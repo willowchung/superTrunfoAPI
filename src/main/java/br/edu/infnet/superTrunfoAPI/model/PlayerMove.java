@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "Player_Move")
-public class PlayerMove implements Serializable{
+public class PlayerMove implements Serializable {
     @Id
     @Column(name = "ID_PLAYER_MOVE")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PLAYER_MOVE")

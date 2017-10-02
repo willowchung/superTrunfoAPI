@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -24,13 +25,15 @@ public class RoomService {
     public static List<Player> onlinePlayers = new ArrayList<>();
 
     public List<Room> getRooms() {
-        if (((List<Room>) roomRepository.findAll()).isEmpty()) {
-            createFirstRoom();
+        List<Room> roomList = (List<Room>) roomRepository.findAll();
+
+        if (roomList.isEmpty()) {
+            return Arrays.asList(createFirstRoom());
         }
-        return (List<Room>) roomRepository.findAll();
+        return roomList;
     }
 
-    private void createFirstRoom() {
+    private Room createFirstRoom() {
         Player player = fetchFirstPlayer();
 
         Room room = new Room();
@@ -39,9 +42,9 @@ public class RoomService {
         room.setCreator(player.getName());
         room.setLatitude(new BigDecimal(-22.906339));
         room.setLongitude(new BigDecimal(-43.177051));
-        room.setPlayers(Arrays.asList(player));
+        room.setPlayers(new HashSet<Player>(Arrays.asList(player)));
 
-        roomRepository.save(room);
+        return roomRepository.save(room);
     }
 
     private Player fetchFirstPlayer() {
