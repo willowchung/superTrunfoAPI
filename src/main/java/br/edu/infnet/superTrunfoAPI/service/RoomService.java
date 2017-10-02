@@ -2,15 +2,19 @@ package br.edu.infnet.superTrunfoAPI.service;
 
 import br.edu.infnet.superTrunfoAPI.model.Player;
 import br.edu.infnet.superTrunfoAPI.model.Room;
-import br.edu.infnet.superTrunfoAPI.model.dto.JoinRoomDTO;
 import br.edu.infnet.superTrunfoAPI.model.dto.CreateRoomDTO;
+import br.edu.infnet.superTrunfoAPI.model.dto.JoinRoomDTO;
 import br.edu.infnet.superTrunfoAPI.repository.RoomRepository;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 @Transactional
@@ -21,6 +25,27 @@ public class RoomService {
 
     @Autowired
     private PlayerService playerService;
+
+
+    private final ExecutorService customObservableExecutor = Executors.newFixedThreadPool(10);
+
+    private final ExecutorService futureExecutor = Executors.newFixedThreadPool(10);
+
+    public Observable<Player> notifyJoinRoom(Long roomId) {
+        return Observable.<Player>create(s -> {
+            Room room = roomRepository.findById(roomId);
+
+            if(room != null) {
+                Player player = room.getPlayers().stream()
+                        .filter(p -> !p.getName().equals(room.getCreator()))
+                        .findFirst().orElse(null);
+                if (player == null)
+                    player = new Player();
+                s.onNext(player);
+            }
+            s.onComplete();
+        }).subscribeOn(Schedulers.from(customObservableExecutor));
+    }
 
     public static List<Player> onlinePlayers = new ArrayList<>();
 
